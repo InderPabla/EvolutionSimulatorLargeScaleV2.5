@@ -1,0 +1,45 @@
+neural_layer: 20 11 11
+min_creature_count: 60                    //Minimum amount of creatures to spawn
+max_visual_speed: 9                  //Play speed at which rendering is stopped
+climate: 2.8                   //Controls rate at which food grows. Ex: 1 is super low, and 10 is super high
+min_life: 6                 //Minimum years creature gets to live (depends on other variables, such as food etc)
+life_decrease: 0.5                    //Rate at which creature looses life due to lack of energy. >>>Formula: life = life - ((worldDeltaTime / minLife) / Mathf.Pow(Mathf.Max(currentEnergy, 1f), lifeDecerase))<<< A creature with energy of 3 will loose life 40% slower than a creature with energy of 1. 
+eat_damage: 0                 //Damage a creature takes based on different between mouth and ground hue. >>>Formula: damage = (colorDifferance * worldDeltaTime * eatDamage)<<<
+velo_damage: 3                    //Damage a creature takes for moving. >>>Formula: damage= (Mathf.Abs(velocityForward) * worldDeltaTime) / veloDamage<<<
+ang_damage: 1                   //Damage a creature takes for rotating. >>>Formula: damage= (Mathf.Abs(angularVelocity) * worldDeltaTime) / angDamage<<<
+fight_damage: 0.1                 //Damage factor a creature can inflict onto another creature >>>Formula: energyTaken = fightDamage * (Mathf.Max(currentEnergy, 0f))<<<
+food_nutrition_power: 1                   //Rate at which food on title decays. Keep between 1 to 5 >>>Formula: energy = energy - (1f-currentTileEnergy)^nutritionPower) * nutritionAmplitude<<<
+food_nutrition_amplitude: 0.013                   //Max food loss. >>>Formula: energy = energy - (1f-currentTileEnergy)^nutritionPower) * nutritionAmplitude<<<
+min_energy_to_birth: 2                    //Minimum energy creature must have before it can give birth.
+min_fight_maturity: 0.25                  //Minimum years for creature to have been alive before it's allowed to be able to fight.
+birth_energy_cost: 1.5                    //Cost of energy to give birth. >>>Formula: energy = energy - birthEnergyCost<<<
+birth_life_cost: 0.25                 //Cost of life to give birth. >>>Formula: life = life - birthLifeCost<<<
+fight_energy_cost: 0.5                    //Cost of energy to have spike out >>>Formula: energy = energy - (worldDeltaTime * fightEnergyCost)<<<
+fight_life_cost: 0                    //Cost of life to have spike out >>>Formula: life = life - (worldDeltaTime * fightLifeCost)<<<
+egg_life: 0.2                    //Life an egg has when in the egg state. If a creature is an egg and it's life is dropped below egg life limit, it will die. If it lives, the damage taken is then subtracted from the overall life of the creature.
+egg_timer: 1                 //Time factor in scaling egg hatching. If set to 0, that mean creatures do not spawn as eggs.  If (eggCurrentTimer*egg_timer)<=0 = Then egg hatched is true
+egg_premature_birth_damage: 0.4                  //Damage taken by an egg if it hatches too early. >>>Formula: life = life - ((eggPrematureBirthDamage - (eggBirthTimer* eggPrematureBirthDamage))* eggFactor)<<<. Note: Egg birth timer is the mutatable part of the genome.
+water_damage: 20                  //Damage a creature takes when on water. >>>Formula: energy = energy - (worldDeltaTime*waterDamage)<<<
+initial_vision_angles: 4 16.875 11.25 11.25 11.25                  //Initial vision angles all creatures start from. Structure: Initial Angle, Offset 1, Offset 2, Offset 3. Ex: 16.875 11.25 11.25 11.25 gives the cone vision structure
+min_vision_length: 0                  //Minimum size of the vision. >>>Formula: visionLenght = minVisionLength. if visionLength <minVisionLength, make visionLength = minVisionLength <<<
+creature_size: 0.2                   //Size of creature in meters (0.2 recommended)
+@world_delta_time: 0.004                  //Time step for this work. 0.0033 is recommened. Keep betweem 0.001 - 0.1.
+@mutation_number: 1000                    //Keep it 1000. Only applies to mutation_sign, random, increase and decrease
+@mutation_weaker_parent_factor: 333                 //Chance of mutation_weaker_parent_factor/1000 PER neural connection for weaker parents's connection weights to be applied and switched from stronger parent
+@mutation_sign: 0.8                 //Chance of mutation out of mutation_number. Ex: mutation_random = 0.2, mutation_number = 1000, then the chance of this mutation will be (0.2/1000)*100% = 0.02%. This seems like a lower number, BUT each neural connection will have this chance to get a mutation. Thus in a neural network with 2000 connection the probability rises drastically.
+@mutation_random: 0.2                   //Same as mutation_sign
+@mutation_increase: 0.2             //Same as mutation_sign
+@mutation_decrease: 0.8                 //Same as mutation_sign
+@seed_soil_fracture: 2.5                    //Pick any number between 0.1 and 10. Try it out :D
+@seed_soil_color: 0.65                 //Makes tighter grouping of colors. Keep between 0.5 to 3
+@seed_disp_water: 1425                    //Water displacement for perlin noise
+@seed_disp_soil: 134                  //Soil displacement for perlin noise
+@seed_soil_power: 1.4                    //Adds more reddness to the soil.
+@seed_disp_fertility: 8925                    //Fertility displacement for perlin noise
+@seed_soil_fertility: 5                   //I have no idea what this does or why I added it. 
+@seed_soil_fertility_power: 0.3                  //Ground fertility. Keep between 0 and 1
+use_custom_map: 1                 // 0 = create procedural map. 1 = create map from png file. If you set it to 1, make sure you have map.png and map_spawn.png files in same folder as the game.
+species_similarity_score: 0.945                  //Species score of greater than or equal to this means creatures are in same species.
+species_grouping_algorithm: 0                 //0 = Random check from all species (less computationaly costly but may on occasion group two creatures from different species into the same species). Greater than 0 = creature must match at least (species_grouping_algorithm*100%) from any species
+use_fast_less_precise_tanh: 0                 //0 = slow more perfect tanh caluclated with double size. 1 = much fast tanh calculated without use of exp function and clipping range of -3 and 3. Note that fast tanh is vastly less precise!!!
+number_of_threads: 4                  //Number of threads for multithreading. 4 is HIGHLY HIGHLY RECOMMENDED. 1 = no multithreading OBVIOUSLY. Keep under 10.
